@@ -196,7 +196,21 @@ alter table livro drop constraint livro_ibfk_1;
 
 alter table livro drop column fk_categoria
 
+// Consultas com INNER JOIN
+
+select livro.titulo, autor.nome_autor
+from livro
+inner join autor_livro on livro.ISBN = autor_livro.id_autor_livro
+inner join autor on autor_livro.id_autor_livro = autor.id_autor;
+
+1- Título do livro emprestado
+2- Nome do usuário que emprestou o livro
+3- Data de retirada do empréstimo
+4- Data de devolução do empréstimo do livro
+
+select livro.titulo, usuario.nome_usuario, emprestimo.data_retirada, emprestimo.data_devolucao
+from livro
+inner join emprestimo on livro.ISBN  = emprestimo.fk_livro
+inner join usuario on usuario.id_usuario = emprestimo.fk_usuario;
+
 */
-
-
-
