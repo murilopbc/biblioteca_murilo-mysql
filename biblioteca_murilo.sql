@@ -1,7 +1,7 @@
 /*
-CREATE DATABASE biblioteca_murilo
 
-
+CREATE DATABASE biblioteca_murilo;
+USE biblioteca_murilo;
 
 CREATE TABLE associacao (
 
@@ -31,10 +31,7 @@ CREATE TABLE livro (
 
 ISBN INT auto_increment primary key,
 titulo varchar(150) not null,
-descricao text,
-fk_categoria INT,
-foreign key (fk_categoria) references categoria(id_categoria)
-
+descricao text
 );
 
 CREATE TABLE emprestimo (
@@ -72,13 +69,13 @@ create table categoria_livro (
 id_categoria_livro int auto_increment primary key,
 fk_categoria int,
 foreign key (fk_categoria) references categoria(id_categoria),
-fk_autor int,
-foreign key (fk_autor) references autor(id_autor)
-)
+fk_ISBN int,
+foreign key (fk_ISBN) references livro(ISBN)
+);
 
 
 
-select * FROM usuario;
+-- select * FROM usuario;
 INSERT INTO usuario (nome_usuario, email_usuario, data_registro) VALUES
 ('Murilo', 'murilo@gmail.com', '2024-01-15'),
 ('Caio', 'caio@gmail.com', '2024-02-16'),
@@ -90,9 +87,9 @@ INSERT INTO usuario (nome_usuario, email_usuario, data_registro) VALUES
 ('Thainá', 'thaina@gmail.com', '2024-01-05'),
 ('Victória', 'victoria@gmail.com', '2024-02-14'),
 ('Bruna', 'bruna@gmail.com', '2024-02-10');
-select * FROM usuario;
+-- select * FROM usuario;
 
-select * from livro;
+-- select * from livro;
 INSERT INTO livro (titulo, descricao) VALUES
 ('Aventuras no Espaço', 'Uma emocionante jornada intergaláctica.'),
 ('Segredos do Passado', 'Um mistério que envolve vidas entrelaçadas.'),
@@ -105,7 +102,7 @@ INSERT INTO livro (titulo, descricao) VALUES
 ('O Mistério da Herança', 'Segredos familiares revelados em uma trama envolvente.'),
 ('Voo da Liberdade', 'Uma história de superação e conquista dos próprios limites.');
 
-select * from emprestimo;
+-- select * from emprestimo;
 INSERT INTO emprestimo (data_retirada, data_devolucao, fk_usuario, fk_livro) VALUES
 ('2024-02-26', '2024-03-18', 2, 4),
 ('2024-02-27', '2024-03-20', 3, 8),
@@ -118,7 +115,7 @@ INSERT INTO emprestimo (data_retirada, data_devolucao, fk_usuario, fk_livro) VAL
 ('2024-03-05', '2024-04-08', 2, 1),
 ('2024-03-06', '2024-04-10', 3, 2);
 
-select * from autor;
+-- select * from autor;
 INSERT INTO autor (nome_autor, biografia) VALUES
 ('John Doe', 'John Doe é um autor renomado, conhecido por suas obras de ficção científica.'),
 ('Jane Smith', 'Jane Smith é uma escritora best-seller de romances de mistério e suspense.'),
@@ -132,7 +129,7 @@ INSERT INTO autor (nome_autor, biografia) VALUES
 ('Samuel Brown', 'Samuel Brown é um autor de ficção histórica, transportando os leitores para diferentes épocas.');
 
 
-select * from associacao;
+-- select * from associacao;
 INSERT INTO associacao (associacao) VALUES
 ('Regular'),
 ('Premium'),
@@ -145,7 +142,7 @@ INSERT INTO associacao (associacao) VALUES
 ('Regular'),
 ('Premium');
 
-select * from categoria;
+-- select * from categoria;
 INSERT INTO categoria (categoria) VALUES
 ('Ficção Científica'),
 ('Romance'),
@@ -158,8 +155,9 @@ INSERT INTO categoria (categoria) VALUES
 ('Poesia'),
 ('Autoajuda');
 
+*/
 
-select * from autor_livro;
+-- select * from autor_livro;
 INSERT INTO autor_livro (fk_autor, fk_livro) VALUES
 (1, 1),
 (2, 2),
@@ -172,8 +170,8 @@ INSERT INTO autor_livro (fk_autor, fk_livro) VALUES
 (9, 9),
 (10, 10);
 
-select * from categoria_livro;
-INSERT INTO categoria_livro (fk_categoria, fk_autor) VALUES
+-- select * from categoria_livro;
+INSERT INTO categoria_livro (fk_categoria, fk_ISBN) VALUES
 (1, 1),
 (2, 2),
 (3, 3),
@@ -186,31 +184,25 @@ INSERT INTO categoria_livro (fk_categoria, fk_autor) VALUES
 (10, 10);
 
 
-select * from livro  
+-- select * from livro  
 
-update categoria set categoria= "Terror" where id_categoria = 8 
+update categoria set categoria= "Terror" where id_categoria = 8;
 
-delete from categoria where id_categoria (5,6)
+delete from categoria where id_categoria (5,6);
 
-alter table livro drop constraint livro_ibfk_1;
 
-alter table livro drop column fk_categoria
 
-// Consultas com INNER JOIN
+-- // Consultas com INNER JOIN
 
 select livro.titulo, autor.nome_autor
 from livro
 inner join autor_livro on livro.ISBN = autor_livro.id_autor_livro
 inner join autor on autor_livro.id_autor_livro = autor.id_autor;
 
-1- Título do livro emprestado
-2- Nome do usuário que emprestou o livro
-3- Data de retirada do empréstimo
-4- Data de devolução do empréstimo do livro
 
 select livro.titulo, usuario.nome_usuario, emprestimo.data_retirada, emprestimo.data_devolucao
 from livro
 inner join emprestimo on livro.ISBN  = emprestimo.fk_livro
 inner join usuario on usuario.id_usuario = emprestimo.fk_usuario;
 
-*/
+
