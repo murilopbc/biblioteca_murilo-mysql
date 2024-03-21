@@ -1,13 +1,13 @@
-
 CREATE DATABASE biblioteca_murilo;
+
 USE biblioteca_murilo;
 
-CREATE TABLE associacao (
 
+CREATE TABLE associacao (
 id_associacao int auto_increment primary key,
 associacao varchar(100) not null
-
 );
+
 
 CREATE table usuario (
 id_usuario INT auto_increment primary key,
@@ -18,24 +18,21 @@ fk_associacao INT,
 foreign key (fk_associacao) references associacao(id_associacao)
 );
 
-
 CREATE TABLE categoria (
-
 id_categoria int auto_increment primary key,
 categoria varchar(30) not null
-
 );
 
-CREATE TABLE livro (
 
+CREATE TABLE livro (
 ISBN INT auto_increment primary key,
 titulo varchar(150) not null,
 descricao text,
 data_publicacao Date
 );
 
-CREATE TABLE emprestimo (
 
+CREATE TABLE emprestimo (
 id_emprestimo INT auto_increment primary key,
 data_retirada DATE,
 data_devolucao Date,
@@ -43,30 +40,27 @@ fk_usuario INT,
 foreign key (fk_usuario) references usuario(id_usuario),
 fk_livro INT,
 foreign key (fk_livro) references livro(ISBN)
-
 );
 
-CREATE TABLE autor (
 
+CREATE TABLE autor (
 id_autor int auto_increment primary key,
 nome_autor varchar(100) not null,
 biografia text,
 idade int
-
 );
 
-create table autor_livro (
 
+create table autor_livro (
 id_autor_livro int auto_increment primary key,
 fk_autor int,
 foreign key (fk_autor) references autor(id_autor),
 fk_livro int,
 foreign key (fk_livro) references livro(ISBN)
-
 );
 
-create table categoria_livro (
 
+create table categoria_livro (
 id_categoria_livro int auto_increment primary key,
 fk_categoria int,
 foreign key (fk_categoria) references categoria(id_categoria),
@@ -75,20 +69,25 @@ foreign key (fk_ISBN) references livro(ISBN)
 );
 
 
+-- select * from associacao;
+INSERT INTO associacao (associacao) VALUES
+('Regular'),
+('Premium');
+
 
 -- select * FROM usuario;
-INSERT INTO usuario (nome_usuario, email_usuario, data_registro) VALUES
-('Murilo', 'murilo@gmail.com', '2024-01-15'),
-('Caio', 'caio@gmail.com', '2024-02-16'),
-('Stella', 'stella@gmail.com', '2024-01-17'),
-('Mirela', 'mirela@gmail.com', '2024-02-18'),
-('Maria', 'maria@gmail.com', '2024-01-19'),
-('Amber', 'amber@gmail.com', '2024-02-20'),
-('João', 'joao@gmail.com', '2024-01-25'),
-('Thainá', 'thaina@gmail.com', '2024-01-05'),
-('Victória', 'victoria@gmail.com', '2024-02-14'),
-('Bruna', 'bruna@gmail.com', '2024-02-10');
--- select * FROM usuario;
+INSERT INTO usuario (nome_usuario, email_usuario, data_registro, fk_associacao) VALUES
+('Murilo', 'murilo@gmail.com', '2024-01-15', 1),
+('Caio', 'caio@gmail.com', '2024-02-16', 2),
+('Stella', 'stella@gmail.com', '2024-01-17', 1),
+('Mirela', 'mirela@gmail.com', '2024-02-18', 2),
+('Maria', 'maria@gmail.com', '2024-01-19', 1),
+('Amber', 'amber@gmail.com', '2024-02-20', 2),
+('João', 'joao@gmail.com', '2024-01-25', 1),
+('Thainá', 'thaina@gmail.com', '2024-01-05', 2),
+('Victória', 'victoria@gmail.com', '2024-02-14', 1),
+('Bruna', 'bruna@gmail.com', '2024-02-10', 1);
+
 
 -- select * from livro;
 INSERT INTO livro (titulo, descricao, data_publicacao) VALUES
@@ -117,6 +116,7 @@ INSERT INTO emprestimo (data_retirada, data_devolucao, fk_usuario, fk_livro) VAL
 ('2024-03-05', '2024-04-08', 2, 1),
 ('2024-03-06', '2024-04-10', 3, 2);
 
+
 -- select * from autor;
 INSERT INTO autor (nome_autor, biografia, idade) VALUES
 ('John Doe', 'John Doe é um autor renomado, conhecido por suas obras de ficção científica.', 45),
@@ -130,10 +130,6 @@ INSERT INTO autor (nome_autor, biografia, idade) VALUES
 ('Alexandra Ivanova', 'Alexandra Ivanova é uma escritora russa cujas obras destacam a cultura e tradições.', 58),
 ('Samuel Brown', 'Samuel Brown é um autor de ficção histórica, transportando os leitores para diferentes épocas.', 50);
 
--- select * from associacao;
-INSERT INTO associacao (associacao) VALUES
-('Regular'),
-('Premium');
 
 -- select * from categoria;
 INSERT INTO categoria (categoria) VALUES
@@ -162,6 +158,7 @@ INSERT INTO autor_livro (fk_autor, fk_livro) VALUES
 (9, 5),
 (10, 5);
 
+
 -- select * from categoria_livro;
 INSERT INTO categoria_livro (fk_categoria, fk_ISBN) VALUES
 (1, 6),
@@ -175,6 +172,7 @@ INSERT INTO categoria_livro (fk_categoria, fk_ISBN) VALUES
 (9, 9),
 (10, 1);
 
+
 /*
 -- select * from livro  
 
@@ -183,8 +181,8 @@ update categoria set categoria= "Terror" where id_categoria = 8;
 delete from categoria where id_categoria (5,6);
 
 
+--  Consultas com INNER JOIN
 
--- // Consultas com INNER JOIN
 
 select livro.titulo, autor.nome_autor
 from livro
@@ -198,4 +196,3 @@ inner join emprestimo on livro.ISBN  = emprestimo.fk_livro
 inner join usuario on usuario.id_usuario = emprestimo.fk_usuario;
 
 */
-
