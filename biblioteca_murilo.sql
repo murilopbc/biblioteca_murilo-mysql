@@ -1,4 +1,3 @@
-/*
 
 CREATE DATABASE biblioteca_murilo;
 USE biblioteca_murilo;
@@ -6,7 +5,7 @@ USE biblioteca_murilo;
 CREATE TABLE associacao (
 
 id_associacao int auto_increment primary key,
-associacao ENUM('Regular','Premium')
+associacao varchar(100) not null
 
 );
 
@@ -31,7 +30,8 @@ CREATE TABLE livro (
 
 ISBN INT auto_increment primary key,
 titulo varchar(150) not null,
-descricao text
+descricao text,
+data_publicacao Date
 );
 
 CREATE TABLE emprestimo (
@@ -50,7 +50,8 @@ CREATE TABLE autor (
 
 id_autor int auto_increment primary key,
 nome_autor varchar(100) not null,
-biografia text
+biografia text,
+idade int
 
 );
 
@@ -90,17 +91,18 @@ INSERT INTO usuario (nome_usuario, email_usuario, data_registro) VALUES
 -- select * FROM usuario;
 
 -- select * from livro;
-INSERT INTO livro (titulo, descricao) VALUES
-('Aventuras no Espaço', 'Uma emocionante jornada intergaláctica.'),
-('Segredos do Passado', 'Um mistério que envolve vidas entrelaçadas.'),
-('O Último Suspiro', 'Um thriller de suspense com reviravoltas impactantes.'),
-('O Jardim Secreto', 'Descubra um mundo mágico escondido além dos portões.'),
-('Caminho da Sabedoria', 'Reflexões sobre a busca pela verdade e conhecimento.'),
-('No Coração da Cidade', 'Histórias entrelaçadas em uma metrópole vibrante.'),
-('A Arte da Guerra', 'Estratégias atemporais para enfrentar desafios.'),
-('Flores do Deserto', 'A extraordinária jornada de uma mulher resiliente.'),
-('O Mistério da Herança', 'Segredos familiares revelados em uma trama envolvente.'),
-('Voo da Liberdade', 'Uma história de superação e conquista dos próprios limites.');
+INSERT INTO livro (titulo, descricao, data_publicacao) VALUES
+('Aventuras no Espaço', 'Uma emocionante jornada intergaláctica.', '2023-05-15'),
+('Segredos do Passado', 'Um mistério que envolve vidas entrelaçadas.', '2022-10-23'),
+('O Último Suspiro', 'Um thriller de suspense com reviravoltas impactantes.', '2024-01-08'),
+('O Jardim Secreto', 'Descubra um mundo mágico escondido além dos portões.', '2015-07-30'),
+('Caminho da Sabedoria', 'Reflexões sobre a busca pela verdade e conhecimento.', '2021-03-17'),
+('No Coração da Cidade', 'Histórias entrelaçadas em uma metrópole vibrante.', '2023-11-25'),
+('A Arte da Guerra', 'Estratégias atemporais para enfrentar desafios.', '2000-04-18'),
+('Flores do Deserto', 'A extraordinária jornada de uma mulher resiliente.', '2019-09-09'),
+('O Mistério da Herança', 'Segredos familiares revelados em uma trama envolvente.', '2022-06-05'),
+('Voo da Liberdade', 'Uma história de superação e conquista dos próprios limites.', '2024-03-15');
+
 
 -- select * from emprestimo;
 INSERT INTO emprestimo (data_retirada, data_devolucao, fk_usuario, fk_livro) VALUES
@@ -116,29 +118,20 @@ INSERT INTO emprestimo (data_retirada, data_devolucao, fk_usuario, fk_livro) VAL
 ('2024-03-06', '2024-04-10', 3, 2);
 
 -- select * from autor;
-INSERT INTO autor (nome_autor, biografia) VALUES
-('John Doe', 'John Doe é um autor renomado, conhecido por suas obras de ficção científica.'),
-('Jane Smith', 'Jane Smith é uma escritora best-seller de romances de mistério e suspense.'),
-('Carlos Silva', 'Carlos Silva é um autor brasileiro premiado, especializado em literatura contemporânea.'),
-('Maria Gonzalez', 'Maria Gonzalez é uma poetisa espanhola famosa por suas obras líricas.'),
-('David Johnson', 'David Johnson é um autor de não-ficção, explorando temas históricos e científicos.'),
-('Emily White', 'Emily White é uma autora jovem aclamada por seus romances contemporâneos.'),
-('Mohammed Rahman', 'Mohammed Rahman é um autor de origem indiana, escrevendo sobre questões sociais.'),
-('Anna Chen', 'Anna Chen é uma romancista chinesa, conhecida por suas histórias emocionantes.'),
-('Alexandra Ivanova', 'Alexandra Ivanova é uma escritora russa cujas obras destacam a cultura e tradições.'),
-('Samuel Brown', 'Samuel Brown é um autor de ficção histórica, transportando os leitores para diferentes épocas.');
-
+INSERT INTO autor (nome_autor, biografia, idade) VALUES
+('John Doe', 'John Doe é um autor renomado, conhecido por suas obras de ficção científica.', 45),
+('Jane Smith', 'Jane Smith é uma escritora best-seller de romances de mistério e suspense.', 38),
+('Carlos Silva', 'Carlos Silva é um autor brasileiro premiado, especializado em literatura contemporânea.', 52),
+('Maria Gonzalez', 'Maria Gonzalez é uma poetisa espanhola famosa por suas obras líricas.', 47),
+('David Johnson', 'David Johnson é um autor de não-ficção, explorando temas históricos e científicos.', 60),
+('Emily White', 'Emily White é uma autora jovem aclamada por seus romances contemporâneos.', 33),
+('Mohammed Rahman', 'Mohammed Rahman é um autor de origem indiana, escrevendo sobre questões sociais.', 41),
+('Anna Chen', 'Anna Chen é uma romancista chinesa, conhecida por suas histórias emocionantes.', 39),
+('Alexandra Ivanova', 'Alexandra Ivanova é uma escritora russa cujas obras destacam a cultura e tradições.', 58),
+('Samuel Brown', 'Samuel Brown é um autor de ficção histórica, transportando os leitores para diferentes épocas.', 50);
 
 -- select * from associacao;
 INSERT INTO associacao (associacao) VALUES
-('Regular'),
-('Premium'),
-('Regular'),
-('Premium'),
-('Regular'),
-('Premium'),
-('Regular'),
-('Premium'),
 ('Regular'),
 ('Premium');
 
@@ -155,35 +148,34 @@ INSERT INTO categoria (categoria) VALUES
 ('Poesia'),
 ('Autoajuda');
 
-*/
 
 -- select * from autor_livro;
 INSERT INTO autor_livro (fk_autor, fk_livro) VALUES
 (1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 6),
-(7, 7),
-(8, 8),
-(9, 9),
-(10, 10);
+(2, 1),
+(3, 2),
+(4, 2),
+(5, 3),
+(6, 3),
+(7, 4),
+(8, 4),
+(9, 5),
+(10, 5);
 
 -- select * from categoria_livro;
 INSERT INTO categoria_livro (fk_categoria, fk_ISBN) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 6),
-(7, 7),
-(8, 8),
+(1, 6),
+(2, 6),
+(3, 7),
+(4, 7),
+(5, 8),
+(6, 8),
+(7, 4),
+(8, 10),
 (9, 9),
-(10, 10);
+(10, 1);
 
-
+/*
 -- select * from livro  
 
 update categoria set categoria= "Terror" where id_categoria = 8;
@@ -205,4 +197,5 @@ from livro
 inner join emprestimo on livro.ISBN  = emprestimo.fk_livro
 inner join usuario on usuario.id_usuario = emprestimo.fk_usuario;
 
+*/
 
